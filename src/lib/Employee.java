@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Employee {
 
@@ -14,10 +13,14 @@ public class Employee {
 	}
 
 	private String employeeId;
-	private InfoData infoData;
+	private String firstName;
+	private String lastName;
+	private String idNumber;
+	private String address;
 	
 	private LocalDate joinDate;
 	private int monthWorkingInYear;
+	
 	private boolean isForeigner;
 	private Gender gender;
 	
@@ -25,17 +28,24 @@ public class Employee {
 	private int otherMonthlyIncome;
 	private int annualDeductible;
 	
-	private Spouse spouse;
-	private List<Child> children;
+	private String spouseName;
+	private String spouseIdNumber;
+
+	private List<String> childNames;
+	private List<String> childIdNumbers;
 	
-	public Employee(String employeeId, InfoData infoData, String lastName, String idNumber, String address, LocalDate joinDate, boolean isForeigner, Gender gender) {
+	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, LocalDate joinDate, boolean isForeigner, Gender gender) {
 		this.employeeId = employeeId;
-		this.infoData = infoData;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.idNumber = idNumber;
+		this.address = address;
 		this.joinDate = joinDate;
 		this.isForeigner = isForeigner;
 		this.gender = gender;
 		
-		children = new ArrayList<>();
+		childNames = new LinkedList<String>();
+		childIdNumbers = new LinkedList<String>();
 	}
 	
 	/**
@@ -70,6 +80,16 @@ public class Employee {
 		this.otherMonthlyIncome = income;
 	}
 	
+	public void setSpouse(String spouseName, String spouseIdNumber) {
+		this.spouseName = spouseName;
+		this.spouseIdNumber = idNumber;
+	}
+	
+	public void addChild(String childName, String childIdNumber) {
+		childNames.add(childName);
+		childIdNumbers.add(childIdNumber);
+	}
+	
 	public int getAnnualIncomeTax() {
 		
 		//Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
@@ -81,6 +101,6 @@ public class Employee {
 			monthWorkingInYear = 12;
 		}
 		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse.equals(""), children.size());
+		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
 	}
 }
