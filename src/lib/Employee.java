@@ -67,6 +67,14 @@ public class Employee {
 	public void setAdditionalIncome(int income) {	
 		this.otherMonthlyIncome = income;
 	}
+
+	public void setSpouse(String spouseName, String spouseIdNumber) {
+        this.spouse = new Spouse(spouseName, spouseIdNumber);
+    }
+
+    public void addChild(String childName, String childIdNumber) {
+        children.add(new Child(childName, childIdNumber));
+    }
 	
 	public int getAnnualIncomeTax() {
 		
