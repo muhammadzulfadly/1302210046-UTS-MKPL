@@ -57,7 +57,7 @@ public class Employee {
             default:
                 break;
         }
-        monthlySalary = isForeigner ? (int) (baseSalary * 1.5) : baseSalary;
+        monthlySalary = isForeigner ? (int) (baseSalary * 1.5) : baseSalary; 
 	}
 	
 	public void setAnnualDeductible(int deductible) {	
