@@ -20,29 +20,23 @@ public class TaxFunction {
     private static final int MAX_CHILDREN_EXEMPTION = 3;
 	
 	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
-		int tax = 0;
-		
-		if (numberOfMonthWorking > 12) {
-			System.err.println("More than 12 month working per year");
-		}
-		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
-		}
-		
-		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
-		}
-		
-		if (tax < 0) {
-			return 0;
-		}else {
-			return tax;
-		}
-			 
-	}
-	
+        if (numberOfMonthWorking > 12) {
+            System.err.println("Error: More than 12 months working per year");
+            return 0;
+        }
+        int totalIncome = (monthlySalary + otherMonthlyIncome) * numberOfMonthWorking;
+        int totalExemption = calculateExemption(isMarried, numberOfChildren);
+        int taxableIncome = totalIncome - deductible - totalExemption;
+        int tax = (int) Math.round(TAX_RATE * taxableIncome);
+        return Math.max(tax, 0);
+    }
+
+    private static int calculateExemption(boolean isMarried, int numberOfChildren) {
+        int totalExemption = BASIC_TAX_EXEMPTION;
+        if (isMarried) {
+            totalExemption += MARRIED_ADDITIONAL_EXEMPTION;
+        }
+        totalExemption += Math.min(numberOfChildren, MAX_CHILDREN_EXEMPTION) * CHILD_EXEMPTION_PER_CHILD;
+        return totalExemption;
+    }
 }
